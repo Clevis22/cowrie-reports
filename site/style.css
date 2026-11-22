@@ -1,0 +1,129 @@
+/* Everforest Dark Hard: https://github.com/sainnhe/everforest/blob/master/palette.md */
+:root {
+  color-scheme: dark;
+  --paper: #272e33;
+  --ink: #d3c6aa;
+  --muted: #9da9a0;
+  --green: #a7c080;
+  --aqua: #83c092;
+  --line: #495156;
+  --wash: #2e383c;
+  --mono: ui-monospace, "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+}
+
+* { box-sizing: border-box; }
+html { scroll-padding-top: 2rem; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 16px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+::selection { background: #3c4841; color: var(--ink); }
+a { color: inherit; text-underline-offset: 0.25em; }
+a:hover { color: var(--green); }
+a:focus-visible {
+  outline: 2px solid var(--green);
+  outline-offset: 6px;
+  border-radius: 1px;
+}
+.page { width: min(100% - 5rem, 960px); margin-inline: auto; }
+.skip-link {
+  position: absolute;
+  top: 0.75rem;
+  left: 1rem;
+  padding: 0.5rem 0.85rem;
+  background: var(--ink);
+  color: var(--paper);
+  transform: translateY(-180%);
+  z-index: 2;
+}
+.skip-link:focus { transform: none; color: var(--paper); }
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  padding-block: 2rem 1.75rem;
+  border-bottom: 1px solid var(--line);
+}
+.wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  font: 500 0.875rem/1.5 var(--mono);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.wordmark svg { width: 24px; height: 24px; stroke: var(--green); stroke-width: 1.5; stroke-linejoin: round; stroke-linecap: round; }
+.wordmark-divider { color: var(--green); }
+nav { display: flex; gap: 1.65rem; }
+nav a { color: var(--muted); font-size: 0.875rem; text-decoration: none; }
+nav a:hover { text-decoration: underline; }
+.intro { padding-block: 5rem 4.4rem; }
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin: 0 0 1.2rem;
+  color: var(--green);
+  font: 400 0.75rem/1.5 var(--mono);
+  letter-spacing: 0.04em;
+}
+.small-rule { display: inline-block; width: 1.35rem; height: 1px; background: currentColor; }
+h1 { margin: 0; font-size: clamp(2rem, 4.6vw, 3.15rem); font-weight: 550; line-height: 1.18; letter-spacing: -0.045em; text-wrap: balance; }
+.lede { max-width: 650px; margin: 1.25rem 0 0; color: var(--muted); font-size: 1.05rem; line-height: 1.75; }
+.archive { scroll-margin-top: 2rem; }
+.section-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--line); }
+h2 { margin: 0; font-size: 0.95rem; font-weight: 600; letter-spacing: -0.01em; }
+.section-note { color: var(--muted); font: 400 0.75rem/1.5 var(--mono); }
+.empty-state { display: flex; align-items: center; gap: 1.5rem; min-height: 180px; padding: 2.25rem 0; border-bottom: 1px solid var(--line); }
+.document-icon { flex: 0 0 auto; width: 32px; height: 40px; stroke: var(--muted); stroke-width: 1.3; stroke-linejoin: round; stroke-linecap: round; }
+h3 { margin: 0; font-size: 1rem; font-weight: 500; }
+.empty-state p { margin: 0.4rem 0 0; color: var(--muted); font-size: 0.9rem; }
+.about { max-width: 650px; padding-block: 3.25rem 4rem; scroll-margin-top: 2rem; }
+.about h2 { margin-bottom: 1rem; }
+.about p { margin: 0.7rem 0; color: var(--muted); font-size: 0.925rem; }
+.site-footer { display: flex; justify-content: space-between; gap: 1.5rem; padding-block: 1.5rem 2rem; border-top: 1px solid var(--line); color: var(--muted); font: 400 0.7rem/1.7 var(--mono); }
+.site-footer a { text-decoration: none; }
+.site-footer a:hover { text-decoration: underline; }
+
+/* Future reviewed report pages share the same quiet reading layout. */
+.report { max-width: 70ch; padding-block: 3.5rem 4rem; }
+.report time { color: var(--green); font: 400 0.8rem/1.6 var(--mono); }
+.report h1 { margin-top: 1rem; font-size: clamp(1.9rem, 4vw, 2.65rem); }
+.report h2 { margin-top: 2rem; font-size: 1.2rem; }
+.report h3 { margin-top: 1.5rem; font-weight: 600; }
+.report p, .report li { color: var(--ink); }
+.report pre { overflow-x: auto; padding: 1rem; background: var(--wash); border: 1px solid var(--line); }
+.report code { font-family: var(--mono); font-size: 0.85em; }
+.report blockquote { margin-inline: 0; padding-left: 1rem; border-left: 2px solid var(--green); color: var(--muted); }
+
+@media (max-width: 600px) {
+  .page { width: calc(100% - 2.5rem); }
+  .site-header { gap: 1rem; padding-block: 1.4rem; }
+  .wordmark { gap: 0.4rem; font-size: 0.72rem; }
+  .wordmark svg { width: 21px; height: 21px; }
+  nav { gap: 1rem; }
+  nav a { font-size: 0.78rem; }
+  .intro { padding-block: 3.5rem 3rem; }
+  .lede { font-size: 0.95rem; }
+  .desktop-break { display: none; }
+  .empty-state { gap: 1rem; min-height: 170px; }
+  .empty-state p { max-width: 30ch; }
+  .about { padding-block: 2.5rem 3rem; }
+  .section-note { font-size: 0.68rem; }
+}
+@media (max-width: 360px) {
+  .site-header { align-items: flex-start; flex-direction: column; gap: 0.9rem; }
+}
+@media print {
+  body { background: white; color: #272e33; }
+  nav, .skip-link, .site-footer { display: none; }
+  .page { width: 100%; }
+  .site-header { padding-top: 0; }
+  .lede, .about p, .eyebrow, .section-note, .empty-state p { color: #495156; }
+}
