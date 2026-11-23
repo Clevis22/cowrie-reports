@@ -221,6 +221,11 @@ def build(root=ROOT):
         for name in ["style.css", "favicon.svg"]:
             read(root / "site" / name, 65536)
             shutil.copyfile(root / "site" / name, staging / name)
+        about = staging / "about"
+        about.mkdir()
+        (about / "index.html").write_text(
+            read(root / "site/about.html", 65536), encoding="utf-8"
+        )
         for report in reports:
             body = render(report, days, names)
             destination = staging / "reports" / report.day

@@ -71,6 +71,7 @@ python3 -m http.server 8765 --bind 127.0.0.1 --directory _site
 
 Open http://127.0.0.1:8765/. `_site/` is generated and ignored by Git.
 Templates and assets live in `site/`. The workflow publishes only `_site/`.
+The About page lives in `site/about.html` and is published at `/about/`.
 Builds do not contact a model, the sensor, the dashboard or a log archive.
 
 ## Content

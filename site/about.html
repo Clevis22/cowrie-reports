@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="dark">
+    <meta name="theme-color" content="#272e33">
+    <meta name="description" content="How this Cowrie honeypot combines an emulated shell with HY4 Flash, and the projects it uses.">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; img-src 'self'; base-uri 'none'; form-action 'none'">
+    <title>About · Cowrie reports</title>
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="../style.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <div class="page">
+      <header class="site-header">
+        <a class="wordmark" href="../" aria-label="Cowrie reports home">
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M5 6h14v12H5zM8 10l2 2-2 2m5 0h3"/></svg>
+          <span>cowrie<span class="wordmark-divider"> / </span>reports</span>
+        </a>
+        <nav aria-label="Main navigation"><a href="../#reports">Reports</a><a href="./" aria-current="page">About</a></nav>
+      </header>
+      <main id="main">
+        <article class="report about-page">
+          <header class="report-header">
+            <h1>About</h1>
+            <p class="lede">I run an SSH honeypot to study login attempts, shell commands and file transfers. This site collects the daily reports.</p>
+          </header>
+          <div class="report-body">
+            <h2>How the shell works</h2>
+            <p>The honeypot runs a custom fork of <a href="https://github.com/cowrie/cowrie" rel="noreferrer">Cowrie</a>. It combines Cowrie’s regular emulated shell with an LLM fallback powered by Tencent’s <a href="https://openrouter.ai/tencent/hy4-flash" rel="noreferrer">HY4 Flash</a>. There is no guest VM behind the shell.</p>
+            <p>Cowrie handles known commands first. Its command handlers and virtual filesystem manage paths, file contents, working directories, shell variables, pipes and redirects. A shared machine profile keeps the emulated system’s details consistent across commands.</p>
+            <p>If a command has no native handler and qualifies for fallback, HY4 Flash receives a bounded description of the current session and generates terminal output and an exit status. Requests go through <a href="https://openrouter.ai/" rel="noreferrer">OpenRouter</a>. A few catalogued virtual utilities also use this path. Existing command errors and invalid options keep their normal Cowrie behavior.</p>
+            <p>The model has no tools to run host commands, install software or execute uploads. Cowrie still owns the virtual filesystem and shell state. Redirecting generated output can create a virtual file through Cowrie’s normal shell handling. If the model is unavailable or a request hits its limits, the command returns a local error.</p>
+
+            <h2>What the reports show</h2>
+            <p>Reports cover recorded commands, session activity and file observations. Captured transfer bytes, emulated behavior and model-generated text are kept distinct. A command that attempts to launch a file does not prove it ran; a generated system description does not establish real hardware.</p>
+            <p>This is partial shell emulation. Unsupported commands, inconsistent responses and model latency can still give it away. The goal is to collect useful observations, and the reports should make those limits clear.</p>
+            <p><a href="https://github.com/NousResearch/hermes-agent" rel="noreferrer">Hermes Agent</a> writes the reports in Markdown. <a href="https://docs.github.com/en/actions" rel="noreferrer">GitHub Actions</a> builds the pages and archive, and <a href="https://docs.github.com/en/pages" rel="noreferrer">GitHub Pages</a> hosts them. The public site contains report text, separate from the private investigation dashboard.</p>
+
+            <h2>Projects and resources</h2>
+            <ul class="resource-list">
+              <li><a href="https://github.com/cowrie/cowrie" rel="noreferrer">Cowrie</a> — the honeypot, SSH handling and emulated shell. <a href="https://docs.cowrie.org/" rel="noreferrer">Documentation</a>.</li>
+              <li><a href="https://huggingface.co/tencent/Hy4-flash" rel="noreferrer">Tencent HY4 Flash</a> — the fallback language model. <a href="https://openrouter.ai/tencent/hy4-flash" rel="noreferrer">Model on OpenRouter</a>.</li>
+              <li><a href="https://github.com/sainnhe/everforest" rel="noreferrer">Everforest</a> by sainnhe — the site’s Dark Hard color palette. <a href="https://github.com/sainnhe/everforest/blob/master/palette.md" rel="noreferrer">Palette reference</a>.</li>
+              <li><a href="https://github.com/NousResearch/hermes-agent" rel="noreferrer">Hermes Agent</a> by Nous Research — report writing.</li>
+              <li><a href="https://www.python.org/" rel="noreferrer">Python</a>, <a href="https://twisted.org/" rel="noreferrer">Twisted / Conch</a> and <a href="https://github.com/lark-parser/lark" rel="noreferrer">Lark</a> — the runtime, networking and SSH framework, and parser used by Cowrie.</li>
+              <li><a href="https://markdown-it-py.readthedocs.io/en/latest/" rel="noreferrer">markdown-it-py</a>, <a href="https://github.com/executablebooks/mdurl" rel="noreferrer">mdurl</a> and <a href="https://pyyaml.org/wiki/PyYAMLDocumentation" rel="noreferrer">PyYAML</a> — Markdown rendering, URL handling and report metadata.</li>
+              <li><a href="https://bazaar.abuse.ch/" rel="noreferrer">MalwareBazaar</a>, <a href="https://urlhaus.abuse.ch/" rel="noreferrer">URLhaus</a> and <a href="https://www.virustotal.com/" rel="noreferrer">VirusTotal</a> — reputation references used during investigation. A reputation result is separate from the sensor’s own evidence.</li>
+              <li><a href="https://github.com/Clevis22/cowrie-reports" rel="noreferrer">Site source and publishing instructions</a> — templates, Markdown format and build workflow.</li>
+            </ul>
+            <details class="dependency-details">
+              <summary>Other Cowrie Python dependencies</summary>
+              <p><a href="https://pypi.org/project/attrs/" rel="noreferrer">attrs</a>, <a href="https://pypi.org/project/bcrypt/" rel="noreferrer">bcrypt</a>, <a href="https://pypi.org/project/cryptography/" rel="noreferrer">cryptography</a>, <a href="https://pypi.org/project/hyperlink/" rel="noreferrer">hyperlink</a>, <a href="https://pypi.org/project/idna/" rel="noreferrer">idna</a>, <a href="https://pypi.org/project/packaging/" rel="noreferrer">packaging</a>, <a href="https://pypi.org/project/pyasn1-modules/" rel="noreferrer">pyasn1-modules</a>, <a href="https://pypi.org/project/service-identity/" rel="noreferrer">service-identity</a> and <a href="https://pypi.org/project/treq/" rel="noreferrer">treq</a>. These accompany Twisted and Lark in Cowrie’s direct runtime dependencies.</p>
+            </details>
+          </div>
+        </article>
+      </main>
+      <footer class="site-footer"><a href="../">Cowrie reports</a><a href="https://github.com/sainnhe/everforest" rel="noreferrer">Everforest palette ↗</a></footer>
+    </div>
+  </body>
+</html>

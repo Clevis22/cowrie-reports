@@ -63,6 +63,7 @@ a:focus-visible {
 nav { display: flex; gap: 1.65rem; }
 nav a { color: var(--muted); font-size: 0.875rem; text-decoration: none; }
 nav a:hover { text-decoration: underline; }
+nav a[aria-current="page"] { color: var(--ink); text-decoration: underline; }
 .intro { padding-block: 4rem 3.25rem; }
 .eyebrow {
   display: flex;
@@ -126,6 +127,12 @@ h3 { margin: 0; font-size: 1rem; font-weight: 500; }
 .report pre { overflow-x: auto; padding: 1rem; background: var(--wash); border: 1px solid var(--line); }
 .report code { font-family: var(--mono); font-size: 0.85em; }
 .report blockquote { margin-inline: 0; padding-left: 1rem; border-left: 2px solid var(--green); color: var(--muted); }
+.about-page h1 { margin-top: 0; }
+.about-page .resource-list { padding-left: 1.2rem; }
+.about-page .resource-list li + li { margin-top: 0.85rem; }
+.dependency-details { margin-top: 2rem; padding-top: 1.25rem; border-top: 1px solid var(--line); font-size: 0.9rem; }
+.dependency-details summary { cursor: pointer; color: var(--muted); }
+.dependency-details summary:focus-visible { outline: 2px solid var(--green); outline-offset: 6px; }
 
 @media (max-width: 600px) {
   .page { width: calc(100% - 2.5rem); }
