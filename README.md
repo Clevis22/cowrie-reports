@@ -3,8 +3,9 @@
 Public site: https://clevis22.github.io/cowrie-reports/
 
 Hermes writes reports as Markdown. GitHub builds the pages and updates the
-archive when a report reaches `main`. No report generator or daily schedule
-runs in this repository. There are no reports yet.
+archive when a report reaches `main`. A daily report covering the previous
+24 hours is published by a scheduled writer outside this repository; the
+schedule and the sensor work stay off this repo, which remains build-only.
 
 ## Add a report
 
@@ -81,6 +82,7 @@ real hardware, execution or network activity. See [AGENTS.md](AGENTS.md) for the
 Hermes writing handoff.
 
 The old DeepSeek daily publisher is retired. The separate private dashboard
-and sensor continue to operate. No reporting schedule is enabled by this site.
+and sensor continue to operate. The daily report schedule runs outside GitHub,
+from the sensor side; this site only renders what is committed.
 
 Colors: [Everforest Dark Hard](https://github.com/sainnhe/everforest).

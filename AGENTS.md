@@ -2,9 +2,11 @@
 
 This repository hosts https://clevis22.github.io/cowrie-reports/ . It is public.
 The owner wants a simple Everforest site and Markdown reports written by Hermes.
-No reports have been commissioned for the initial site setup. Do not invent one
-to populate the archive, migrate old reports, fetch logs, or enable a schedule
-as part of site development. Do not use the Sites skill.
+Reports are commissioned: one per day covering the previous 24 hours, written by
+Hermes at 20:00 America/New_York from the sensor's evidence bundle, and published
+here automatically when `main` moves. Each run covers the day the window starts on.
+Do not invent a report when the evidence bundle has no data, and do not migrate
+the old journal's reports. Do not use the Sites skill.
 
 ## Writing a commissioned daily report
 
