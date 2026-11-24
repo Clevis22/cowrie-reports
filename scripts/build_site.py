@@ -17,6 +17,7 @@ from urllib.parse import quote, unquote, urlsplit
 
 import yaml
 from markdown_it import MarkdownIt
+from markdown_it.token import Token
 
 ROOT = Path(__file__).resolve().parents[1]
 MAX_REPORT = 256 * 1024
@@ -114,11 +115,65 @@ def load_report(path: Path) -> Report:
     )
 
 
+def prepare_table(tokens: list[Token]) -> None:
+    headers = [
+        tokens[index + 1]
+        for index, token in enumerate(tokens)
+        if token.type == "th_open"
+    ]
+    if len(headers) < 3:
+        return
+
+    labels = []
+    for index, header in enumerate(headers, 1):
+        text = "".join(
+            child.content for child in header.children or []
+            if child.type in {"text", "code_inline", "image"}
+        ).strip()
+        label = text if len(text) <= 96 else text[:95] + "…"
+        labels.append(html.escape(label or f"Column {index}"))
+
+    # Keep table semantics when the mobile stylesheet changes the display roles.
+    tokens[0].attrSet("class", "stack-table")
+    roles = {
+        "table_open": "table",
+        "thead_open": "rowgroup",
+        "tbody_open": "rowgroup",
+        "tr_open": "row",
+        "th_open": "columnheader",
+        "td_open": "cell",
+    }
+    column = 0
+    for index, token in enumerate(tokens):
+        if role := roles.get(token.type):
+            token.attrSet("role", role)
+        if token.type == "tr_open":
+            column = 0
+        elif token.type == "th_open":
+            token.attrSet("scope", "col")
+        elif token.type == "td_open":
+            cell = tokens[index + 1]
+            label = labels[column]
+            cell.children = [
+                Token("html_inline", "", 0, content=(
+                    f'<span class="table-label" aria-hidden="true">{label}</span><span>'
+                )),
+                *(cell.children or []),
+                Token("html_inline", "", 0, content="</span>"),
+            ]
+            column += 1
+
+
 def render(report: Report, known_days: set[str], assets: set[str]) -> str:
     parser = MarkdownIt("commonmark", {"html": False, "linkify": False}).enable("table")
     tokens = parser.parse(report.body)
     anchors = set()
+    table_start = 0
     for index, token in enumerate(tokens):
+        if token.type == "table_open":
+            table_start = index
+        elif token.type == "table_close":
+            prepare_table(tokens[table_start : index + 1])
         alignment = token.attrGet("style")
         if isinstance(alignment, str) and re.fullmatch(
             r"text-align:(left|right|center)", alignment
@@ -170,7 +225,7 @@ def render(report: Report, known_days: set[str], assets: set[str]) -> str:
                     )
                 child.attrSet("src", "../../" + quote(src, safe="/"))
     result = parser.renderer.render(tokens, parser.options, {})
-    return result.replace("<table>", '<div class="table-scroll"><table>').replace(
+    return re.sub(r"<table(?=[ >])", '<div class="table-scroll"><table', result).replace(
         "</table>", "</table></div>"
     )
 

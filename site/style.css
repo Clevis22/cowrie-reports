@@ -120,6 +120,7 @@ h3 { margin: 0; font-size: 1rem; font-weight: 500; }
 .report .align-right { text-align: right; }
 .report .align-center { text-align: center; }
 .report .align-left { text-align: left; }
+.table-label { display: none; }
 .report-source { margin-top: 3rem; padding-top: 1.25rem; border-top: 1px solid var(--line); color: var(--muted); font-size: 0.8rem; }
 .report h2 { margin-top: 2rem; font-size: 1.2rem; }
 .report h3 { margin-top: 1.5rem; font-weight: 600; }
@@ -133,6 +134,45 @@ h3 { margin: 0; font-size: 1rem; font-weight: 500; }
 .dependency-details { margin-top: 2rem; padding-top: 1.25rem; border-top: 1px solid var(--line); font-size: 0.9rem; }
 .dependency-details summary { cursor: pointer; color: var(--muted); }
 .dependency-details summary:focus-visible { outline: 2px solid var(--green); outline-offset: 6px; }
+
+@media screen and (max-width: 720px) {
+  .report th, .report td { padding: 0.55rem 0.65rem; }
+  .report .stack-table { display: block; }
+  .stack-table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .stack-table tbody {
+    display: grid;
+    gap: 0.75rem;
+  }
+  .stack-table tbody tr {
+    display: block;
+    padding: 0.35rem 0.8rem;
+    border: 1px solid var(--line);
+    border-radius: 0.4rem;
+    background: var(--wash);
+  }
+  .report .stack-table td {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    gap: 0.75rem;
+    padding: 0.4rem 0;
+    border: 0;
+    line-height: 1.5;
+    text-align: left;
+  }
+  .report .stack-table td + td { border-top: 1px solid var(--line); }
+  .stack-table .table-label {
+    display: block;
+    color: var(--muted);
+    font-weight: 600;
+  }
+}
 
 @media (max-width: 600px) {
   .page { width: calc(100% - 2.5rem); }

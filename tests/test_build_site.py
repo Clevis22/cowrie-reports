@@ -211,6 +211,24 @@ class BuildTests(unittest.TestCase):
         self.assertIn('class="align-right"', rendered)
         self.assertNotIn('style="text-align:', rendered)
 
+    def test_wide_table_gets_escaped_mobile_labels_and_column_headers(self):
+        self.report(body=(
+            "| Address | **Visits** | `<label>` |\n"
+            "| --- | ---: | --- |\n"
+            "| `192.0.2.1` | 3 | |\n"
+            "| `192.0.2.2` | 1 | Note |\n"
+        ))
+        self.build()
+        rendered = self.output("reports/2026-01-02/index.html")
+        self.assertIn('<table class="stack-table" role="table">', rendered)
+        self.assertIn('role="columnheader" scope="col"', rendered)
+        self.assertIn('<th class="align-right"', rendered)
+        label = '<span class="table-label" aria-hidden="true">'
+        self.assertEqual(rendered.count(f"{label}Address</span>"), 2)
+        self.assertIn(f"{label}Visits</span><span>3</span>", rendered)
+        self.assertIn(f"{label}&lt;label&gt;</span><span></span>", rendered)
+        self.assertNotIn("<label>", rendered)
+
     def test_numbered_heading_names_do_not_collide(self):
         self.report(body="## Fixture\n\n## Fixture\n\n## Fixture-2")
         self.build()
