@@ -211,6 +211,7 @@ def build(root=ROOT):
     index = read(root / "site/index.html", 65536)
     template = string.Template(read(root / "site/report.html", 65536))
     rows = []
+    ollama_rows = []
     output = root / "_site"
     if output.is_symlink() or (output.exists() and not (output / MARKER).is_file()):
         raise BuildError("Refusing to replace an unmanaged _site directory")
@@ -228,6 +229,12 @@ def build(root=ROOT):
         )
         for report in reports:
             body = render(report, days, names)
+            headings = MarkdownIt("commonmark").parse(report.body)
+            has_ollama = any(token.type == "heading_open" and token.tag == "h2"
+                and headings[index + 1].content.strip().lower() == "ollama api"
+                for index, token in enumerate(headings[:-1]))
+            if has_ollama:
+                ollama_rows.append(f'<li class="report-row"><time datetime="{report.day}">{report.display_date}</time><div><h3><a href="../reports/{report.day}/#ollama-api">{html.escape(report.title)}</a></h3></div></li>')
             destination = staging / "reports" / report.day
             destination.mkdir(parents=True)
             title, summary, author = (
@@ -257,6 +264,13 @@ def build(root=ROOT):
             if rows
             else '<p class="empty-state">No reports yet.</p>'
         )
+        ollama_page = read(root / "site/ollama.html", 65536)
+        ollama_listing = '<ul class="report-rows">' + ''.join(ollama_rows) + '</ul>' if ollama_rows else '<p class="empty-state">No Ollama summaries yet.</p>'
+        ollama_page, ollama_count = re.subn(r"<!-- ollama:start -->.*?<!-- ollama:end -->", lambda _: ollama_listing, ollama_page, flags=re.DOTALL)
+        if ollama_count != 1:
+            raise BuildError("Expected one Ollama report list marker")
+        (staging / "ollama").mkdir()
+        (staging / "ollama/index.html").write_text(ollama_page, encoding="utf-8")
         marker = r"<!-- reports:start -->.*?<!-- reports:end -->"
         index, count = re.subn(marker, lambda _: listing, index, flags=re.DOTALL)
         if count != 1:

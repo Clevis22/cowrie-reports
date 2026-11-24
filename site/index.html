@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="color-scheme" content="dark">
     <meta name="theme-color" content="#272e33">
-    <meta name="description" content="Daily reports from my Cowrie SSH honeypot.">
+    <meta name="description" content="Daily reports from my SSH honeypot and Ollama API decoy.">
     <meta name="referrer" content="strict-origin-when-cross-origin">
     <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; img-src 'self'; base-uri 'none'; form-action 'none'">
     <title>Cowrie reports</title>
@@ -22,6 +22,7 @@
         </a>
         <nav aria-label="Main navigation">
           <a href="#reports">Reports</a>
+          <a href="ollama/">Ollama</a>
           <a href="about/">About</a>
         </nav>
       </header>
@@ -29,7 +30,7 @@
       <main id="main">
         <section class="intro" aria-labelledby="page-title">
           <h1 id="page-title">Cowrie reports</h1>
-          <p class="lede">Daily reports from my SSH honeypot.</p>
+          <p class="lede">Daily reports from my SSH honeypot and Ollama API decoy.</p>
         </section>
 
         <section class="archive" id="reports" aria-labelledby="reports-title">
@@ -41,6 +42,12 @@
             <p class="empty-state">No reports yet.</p>
             <!-- reports:end -->
           </div>
+        </section>
+
+        <section class="about" id="ollama" aria-labelledby="ollama-title">
+          <h2 id="ollama-title">Ollama API</h2>
+          <p>A separate decoy records requests to an Ollama-style API and returns canned replies.</p>
+          <p><a href="ollama/">Ollama summaries →</a></p>
         </section>
 
         <section class="about" id="about" aria-labelledby="about-title">

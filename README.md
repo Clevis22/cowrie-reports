@@ -87,3 +87,11 @@ and sensor continue to operate. The daily report schedule runs outside GitHub,
 from the sensor side; this site only renders what is committed.
 
 Colors: [Everforest Dark Hard](https://github.com/sainnhe/everforest).
+
+## Ollama API reports
+
+The separate `/ollama/` page lists reports containing an exact `## Ollama API`
+heading. Hermes should summarize that source in the daily Markdown when evidence
+is available. The SSH shell uses HY4 fallback; the API decoy returns canned replies.
+Public reports contain aggregate observations, with raw prompts and request bodies
+kept in the private log archive. See AGENTS.md for source and privacy boundaries.

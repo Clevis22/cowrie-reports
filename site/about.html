@@ -20,7 +20,7 @@
           <svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M5 6h14v12H5zM8 10l2 2-2 2m5 0h3"/></svg>
           <span>cowrie<span class="wordmark-divider"> / </span>reports</span>
         </a>
-        <nav aria-label="Main navigation"><a href="../#reports">Reports</a><a href="./" aria-current="page">About</a></nav>
+        <nav aria-label="Main navigation"><a href="../#reports">Reports</a><a href="../ollama/">Ollama</a><a href="./" aria-current="page">About</a></nav>
       </header>
       <main id="main">
         <article class="report about-page">
@@ -35,6 +35,10 @@
             <p>If a command has no native handler and qualifies for fallback, HY4 Flash receives a bounded description of the current session and generates terminal output and an exit status. Requests go through <a href="https://openrouter.ai/" rel="noreferrer">OpenRouter</a>. A few catalogued virtual utilities also use this path. Existing command errors and invalid options keep their normal Cowrie behavior.</p>
             <p>The model has no tools to run host commands, install software or execute uploads. Cowrie still owns the virtual filesystem and shell state. Redirecting generated output can create a virtual file through Cowrie’s normal shell handling. If the model is unavailable or a request hits its limits, the command returns a local error.</p>
 
+            <h2>Ollama API decoy</h2>
+            <p>A separate Rust service imitates an Ollama API. It records discovery requests, submitted prompts and model-management attempts, and returns short canned replies. It keeps no conversation state.</p>
+            <p>Daily reports summarize request counts, endpoints, requested models and capture gaps. Raw prompts and request bodies stay in the private logs. An API success response comes from the simulation.</p>
+
             <h2>What the reports show</h2>
             <p>Reports cover recorded commands, session activity and file observations. Captured transfer bytes, emulated behavior and model-generated text are kept distinct. A command that attempts to launch a file does not prove it ran; a generated system description does not establish real hardware.</p>
             <p>This is partial shell emulation. Unsupported commands, inconsistent responses and model latency can still give it away. The goal is to collect useful observations, and the reports should make those limits clear.</p>
@@ -42,6 +46,7 @@
 
             <h2>Projects and resources</h2>
             <ul class="resource-list">
+              <li><a href="https://docs.ollama.com/api/introduction" rel="noreferrer">Ollama API</a> — the interface imitated by the API decoy. The service uses <a href="https://www.rust-lang.org/" rel="noreferrer">Rust</a>, <a href="https://tokio.rs/" rel="noreferrer">Tokio</a> and <a href="https://hyper.rs/" rel="noreferrer">Hyper</a>.</li>
               <li><a href="https://github.com/cowrie/cowrie" rel="noreferrer">Cowrie</a> — the honeypot, SSH handling and emulated shell. <a href="https://docs.cowrie.org/" rel="noreferrer">Documentation</a>.</li>
               <li><a href="https://huggingface.co/tencent/Hy4-flash" rel="noreferrer">Tencent HY4 Flash</a> — the fallback language model. <a href="https://openrouter.ai/tencent/hy4-flash" rel="noreferrer">Model on OpenRouter</a>.</li>
               <li><a href="https://github.com/sainnhe/everforest" rel="noreferrer">Everforest</a> by sainnhe — the site’s Dark Hard color palette. <a href="https://github.com/sainnhe/everforest/blob/master/palette.md" rel="noreferrer">Palette reference</a>.</li>

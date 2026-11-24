@@ -50,3 +50,28 @@ the old journal's reports. Do not use the Sites skill.
   in `reports-site/`; this public repository is the canonical publishing source.
 - Keep code changes small. Test rendering, escaping and the empty archive with
   inert temporary fixtures. Never commit test fixtures as real reports.
+
+## Ollama section in daily reports
+
+The sensor also has a separate stateless Ollama API decoy. Its replies are canned;
+HY4 is used only by the SSH hybrid shell. Include `## Ollama API` when the reporting
+window has Ollama evidence, including an explicit no-external-requests observation
+when coverage is available. The site indexes that exact section under `/ollama/`.
+Do not invent activity for windows before this source was collected.
+
+The private Drive folder now receives `ollama-decoy-*.jsonl.gz` alongside
+`cowrie-hybrid-*.jsonl.gz`. They are separate sources: Ollama records have eventid
+`ollama.http.request`. Never interpret them as SSH sessions or completed model
+execution. Exclude loopback and marked validation traffic from external counts.
+
+Summarize counts, unique-source totals, endpoint categories, model requests, error
+replies and incomplete captures. Public text must omit raw prompts, request bodies,
+headers, credentials, source IPs and internal access details. Describe supplied
+tools as request data; no tool or model is actually executed by this decoy.
+
+For a safe pre-aggregated view, the VPS helper `cowrie-ollama-summary` accepts
+`--hours 24 --until <window-end-unix-timestamp>`. Its output excludes raw request
+content and IPs. Use the same report window for SSH and Ollama. Retention can limit
+coverage; zero retained requests alone does not prove uninterrupted availability.
+The private dashboard index is bounded and may retain only excerpts; compressed
+raw logs are authoritative for captured request bodies. Never fetch submitted URLs.

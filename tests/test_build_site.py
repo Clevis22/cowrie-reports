@@ -16,6 +16,20 @@ spec.loader.exec_module(site)
 
 
 class BuildTests(unittest.TestCase):
+    def test_ollama_archive_links_only_reports_with_a_real_section(self):
+        self.report(day="2026-01-02", body="## Ollama API\n\nInert aggregate fixture.")
+        self.report(day="2026-01-03", body="## SSH\n\n```text\n## Ollama API\n```\n")
+        self.build()
+        page = self.output("ollama/index.html")
+        self.assertIn("../reports/2026-01-02/#ollama-api", page)
+        self.assertNotIn("../reports/2026-01-03/", page)
+        self.assertIn('id="ollama-api"', self.output("reports/2026-01-02/index.html"))
+
+    def test_ollama_archive_empty_state_does_not_invent_a_report(self):
+        self.build()
+        self.assertIn("No Ollama summaries yet.", self.output("ollama/index.html"))
+        self.assertNotIn("#ollama-api", self.output("ollama/index.html"))
+
     def setUp(self):
         temporary = tempfile.TemporaryDirectory()
         self.addCleanup(temporary.cleanup)
